@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Poorvi Dalakoti — Sports Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0b0f0d;
+  --surface:#111610;
+  --card:#151a12;
+  --green:#2a6e4f;
+  --lime:#b8e04a;
+  --gold:#e8b84b;
+  --rose:#e05050;
+  --cream:#f5f0e8;
+  --muted:#6b7a60;
+  --border:rgba(255,255,255,0.07);
+  --white:#f9f9f5;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--white);font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;cursor:default}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.4;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor{position:fixed;width:8px;height:8px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(184,224,74,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.18s ease}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 4rem;
+  background:rgba(11,15,13,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:700;
+  letter-spacing:0.05em;color:var(--cream);
+}
+.nav-logo span{color:var(--lime)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  text-decoration:none;font-size:0.73rem;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--muted);transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--lime)}
+.nav-cta{
+  padding:0.5rem 1.2rem;border:1px solid var(--lime);
+  color:var(--lime);font-size:0.72rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;border-radius:2px;
+  transition:background 0.2s,color 0.2s;
+}
+.nav-cta:hover{background:var(--lime);color:var(--bg)}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 4rem 5rem;
+  position:relative;overflow:hidden;
+}
+
+/* Mountain silhouette - nod to Uttarakhand */
+.mountain-bg{
+  position:absolute;bottom:0;left:0;right:0;height:55%;
+  opacity:0.06;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,400 200,80 400,220 600,20 800,180 1000,60 1200,200 1440,100 1440,400' fill='%23b8e04a'/%3E%3C/svg%3E") no-repeat bottom/cover;
+}
+
+.hero-tag{
+  font-size:0.7rem;font-weight:600;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--lime);
+  margin-bottom:1.5rem;
+  opacity:0;animation:fadeUp 0.6s 0.3s forwards;
+}
+.hero-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(4rem,9vw,9.5rem);
+  font-weight:900;line-height:0.88;
+  letter-spacing:-0.02em;
+  color:var(--white);
+  opacity:0;animation:fadeUp 0.8s 0.45s forwards;
+}
+.hero-name em{
+  font-style:italic;color:transparent;
+  -webkit-text-stroke:1px var(--lime);
+}
+.hero-sub{
+  max-width:55ch;margin-top:2.2rem;
+  font-size:1.05rem;line-height:1.8;
+  color:rgba(249,249,245,0.5);
+  opacity:0;animation:fadeUp 0.7s 0.6s forwards;
+}
+.hero-sub strong{color:var(--cream);font-weight:400}
+.hero-bottom{
+  display:flex;align-items:flex-end;
+  justify-content:space-between;flex-wrap:wrap;
+  gap:2rem;margin-top:4rem;
+  opacity:0;animation:fadeUp 0.7s 0.8s forwards;
+}
+.hero-stats{display:flex;gap:3rem}
+.hero-stat-n{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;font-weight:900;
+  color:var(--lime);line-height:1;
+}
+.hero-stat-l{
+  font-size:0.7rem;font-weight:500;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--muted);margin-top:0.3rem;
+}
+.hero-scroll{
+  display:flex;flex-direction:column;align-items:center;
+  gap:0.5rem;font-size:0.68rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--muted);
+}
+.scroll-line{
+  width:1px;height:60px;background:linear-gradient(to bottom,var(--lime),transparent);
+  animation:scrollPulse 2s infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:0.3}50%{opacity:1}}
+
+/* ── JOURNEY / STORY ── */
+#story{
+  padding:8rem 4rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;
+  align-items:center;
+  border-top:1px solid var(--border);
+}
+.story-label{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--lime);margin-bottom:1rem;
+}
+.story-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,4vw,3.8rem);
+  font-weight:900;line-height:1.08;color:var(--white);
+}
+.story-title em{font-style:italic;color:var(--gold)}
+.story-body{
+  margin-top:2rem;font-size:0.95rem;line-height:1.9;
+  color:rgba(249,249,245,0.55);
+}
+.story-body p+p{margin-top:1.2rem}
+.story-body strong{color:var(--cream);font-weight:500}
+.story-right{position:relative}
+.origin-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:4px;padding:2.5rem;
+  position:relative;overflow:hidden;
+}
+.origin-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--lime));
+}
+.origin-place{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;
+}
+.origin-quote{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;font-style:italic;
+  line-height:1.4;color:var(--white);
+}
+.origin-quote span{color:var(--lime)}
+.journey-steps{margin-top:2rem;display:flex;flex-direction:column;gap:1rem}
+.j-step{
+  display:flex;gap:1rem;align-items:flex-start;
+  padding:1rem 1.2rem;
+  background:rgba(255,255,255,0.03);
+  border-radius:3px;border-left:2px solid transparent;
+  transition:border-color 0.2s;
+}
+.j-step:hover{border-left-color:var(--lime)}
+.j-icon{font-size:1.4rem;flex-shrink:0;margin-top:0.1rem}
+.j-text{font-size:0.88rem;line-height:1.65;color:rgba(249,249,245,0.55)}
+.j-text strong{color:var(--cream);font-weight:500;display:block;margin-bottom:0.2rem;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase}
+
+/* ── ACHIEVEMENT STRIP ── */
+#strip{
+  padding:3.5rem 4rem;
+  background:var(--green);
+  display:flex;justify-content:space-around;align-items:center;
+  flex-wrap:wrap;gap:2rem;
+  position:relative;overflow:hidden;
+}
+#strip::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,0.03) 0,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 20px);
+}
+.strip-item{text-align:center;position:relative}
+.strip-n{
+  font-family:'Playfair Display',serif;
+  font-size:3.5rem;font-weight:900;
+  color:var(--lime);line-height:1;
+}
+.strip-l{
+  font-size:0.7rem;font-weight:500;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(255,255,255,0.6);
+  margin-top:0.4rem;
+}
+
+/* ── EXPERIENCE ── */
+#experience{padding:8rem 4rem;border-top:1px solid var(--border)}
+.section-header{margin-bottom:4.5rem}
+.sec-label{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--lime);margin-bottom:0.8rem;
+}
+.sec-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,4.5vw,4rem);
+  font-weight:900;line-height:1;color:var(--white);
+}
+.sec-title em{font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.3)}
+
+/* Experience timeline */
+.exp-timeline{position:relative;padding-left:1.5rem}
+.exp-timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:1px;background:var(--border);
+}
+.exp-item{
+  position:relative;padding:0 0 3.5rem 3rem;
+  border-left:none;
+}
+.exp-item::before{
+  content:'';position:absolute;left:-5px;top:6px;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--muted);
+  transition:border-color 0.3s,background 0.3s;
+}
+.exp-item:hover::before{border-color:var(--lime);background:var(--lime)}
+.exp-item.current::before{border-color:var(--lime);background:var(--lime);box-shadow:0 0 0 4px rgba(184,224,74,0.15)}
+.exp-meta{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:0.8rem;margin-bottom:0.5rem;
+}
+.exp-date{
+  font-size:0.68rem;font-weight:500;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--muted);
+}
+.exp-badge{
+  font-size:0.62rem;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:2px;
+}
+.badge-elite{background:rgba(232,184,75,0.15);color:var(--gold);border:1px solid rgba(232,184,75,0.3)}
+.badge-current{background:rgba(184,224,74,0.12);color:var(--lime);border:1px solid rgba(184,224,74,0.3)}
+.badge-vol{background:rgba(42,110,79,0.3);color:#7ecba0;border:1px solid rgba(42,110,79,0.4)}
+.exp-role{
+  font-family:'Playfair Display',serif;
+  font-size:1.55rem;font-weight:700;
+  color:var(--white);line-height:1.15;margin-bottom:0.3rem;
+}
+.exp-org{
+  font-size:0.78rem;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--lime);margin-bottom:1rem;
+}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.exp-bullets li{
+  font-size:0.9rem;line-height:1.7;
+  color:rgba(249,249,245,0.5);
+  padding-left:1.2rem;position:relative;
+}
+.exp-bullets li::before{
+  content:'—';position:absolute;left:0;
+  color:var(--muted);font-size:0.8rem;
+}
+
+/* ── SKILLS ── */
+#skills{
+  padding:8rem 4rem;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;
+}
+.skill-group+.skill-group{margin-top:2.5rem}
+.skill-group-title{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:1.2rem;border-bottom:1px solid var(--border);
+  padding-bottom:0.6rem;
+}
+.skill-row{margin-bottom:1.4rem}
+.skill-info{
+  display:flex;justify-content:space-between;
+  font-size:0.84rem;font-weight:400;
+  color:var(--white);margin-bottom:0.5rem;
+}
+.skill-pct{color:var(--muted);font-size:0.78rem}
+.skill-track{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.skill-fill{
+  height:100%;border-radius:2px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+.fill-lime{background:linear-gradient(90deg,var(--green),var(--lime))}
+.fill-gold{background:linear-gradient(90deg,#9e6b10,var(--gold))}
+.tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem}
+.tag{
+  padding:0.4rem 0.9rem;
+  border:1px solid var(--border);
+  border-radius:2px;
+  font-size:0.75rem;font-weight:400;
+  color:rgba(249,249,245,0.5);
+  transition:border-color 0.2s,color 0.2s;cursor:default;
+}
+.tag:hover{border-color:var(--lime);color:var(--lime)}
+.certs{display:flex;flex-direction:column;gap:0.8rem;margin-top:1.5rem}
+.cert{
+  display:flex;align-items:center;gap:0.8rem;
+  padding:0.9rem 1.2rem;
+  background:rgba(184,224,74,0.06);
+  border:1px solid rgba(184,224,74,0.12);
+  border-radius:3px;
+}
+.cert-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--lime);flex-shrink:0;
+}
+.cert-text{font-size:0.84rem;color:rgba(249,249,245,0.7)}
+
+/* ── ATHLETIC ── */
+#athletic{
+  padding:8rem 4rem;
+  border-top:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.sport-cards{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1.5px;background:var(--border);
+  margin-top:4rem;
+}
+.sport-card{
+  background:var(--bg);padding:2.5rem 2rem;
+  transition:background 0.25s;cursor:default;
+  position:relative;overflow:hidden;
+}
+.sport-card::before{
+  content:'';position:absolute;
+  bottom:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;
+  background:radial-gradient(circle,rgba(184,224,74,0.08),transparent 70%);
+}
+.sport-card:hover{background:var(--card)}
+.sport-emoji{font-size:2.5rem;margin-bottom:1rem;display:block}
+.sport-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:700;
+  color:var(--white);margin-bottom:0.5rem;
+}
+.sport-desc{
+  font-size:0.84rem;line-height:1.65;
+  color:rgba(249,249,245,0.45);
+}
+.sport-tag{
+  display:inline-block;margin-top:1rem;
+  padding:0.3rem 0.7rem;background:rgba(232,184,75,0.1);
+  border:1px solid rgba(232,184,75,0.2);
+  color:var(--gold);font-size:0.66rem;
+  font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  border-radius:2px;
+}
+
+/* ── EDUCATION ── */
+#education{
+  padding:8rem 4rem;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+}
+.edu-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-top:4rem;
+}
+.edu-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:4px;padding:2.2rem;
+  transition:transform 0.25s,border-color 0.25s;cursor:default;
+  position:relative;
+}
+.edu-card::after{
+  content:attr(data-year);
+  position:absolute;top:1.5rem;right:1.5rem;
+  font-size:0.65rem;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--muted);
+}
+.edu-card:hover{transform:translateY(-4px);border-color:rgba(184,224,74,0.2)}
+.edu-card.highlight{border-top:2px solid var(--lime)}
+.edu-degree{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:700;
+  color:var(--white);line-height:1.3;margin-bottom:0.5rem;
+}
+.edu-uni{
+  font-size:0.75rem;font-weight:500;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--lime);margin-bottom:1rem;
+}
+.edu-note{
+  font-size:0.83rem;line-height:1.65;
+  color:rgba(249,249,245,0.45);
+  border-top:1px solid var(--border);padding-top:0.9rem;margin-top:0.9rem;
+}
+
+/* ── HUMAN SECTION ── */
+#human{
+  padding:8rem 4rem;
+  border-top:1px solid var(--border);
+  display:grid;grid-template-columns:5fr 4fr;gap:5rem;
+  align-items:center;
+}
+.human-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,4vw,4rem);
+  font-weight:900;line-height:1.05;color:var(--white);
+  margin-top:1rem;
+}
+.human-title em{font-style:italic;color:var(--rose)}
+.human-body{
+  margin-top:2rem;font-size:0.95rem;
+  line-height:1.9;color:rgba(249,249,245,0.5);
+}
+.human-body p+p{margin-top:1.2rem}
+.human-body strong{color:var(--cream);font-weight:400}
+.values-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+}
+.value-box{
+  padding:1.5rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:3px;
+  transition:border-color 0.2s;cursor:default;
+}
+.value-box:hover{border-color:var(--lime)}
+.value-icon{font-size:1.6rem;margin-bottom:0.7rem;display:block}
+.value-t{
+  font-size:0.82rem;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--cream);margin-bottom:0.3rem;
+}
+.value-d{
+  font-size:0.8rem;line-height:1.6;
+  color:rgba(249,249,245,0.4);
+}
+
+/* ── DISSERTATION ── */
+#dissertation{
+  padding:6rem 4rem;
+  background:var(--green);
+  position:relative;overflow:hidden;
+}
+#dissertation::before{
+  content:'"';
+  font-family:'Playfair Display',serif;
+  font-size:30rem;font-weight:900;
+  position:absolute;top:-8rem;left:-2rem;
+  color:rgba(0,0,0,0.15);line-height:1;
+  pointer-events:none;
+}
+.diss-label{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.25em;
+  text-transform:uppercase;color:rgba(184,224,74,0.7);
+  margin-bottom:1.2rem;
+}
+.diss-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,3vw,2.6rem);
+  font-style:italic;font-weight:700;
+  color:var(--white);max-width:22em;line-height:1.3;
+}
+.diss-body{
+  margin-top:1.5rem;max-width:55ch;
+  font-size:0.92rem;line-height:1.85;
+  color:rgba(255,255,255,0.6);
+}
+
+/* ── CONTACT ── */
+#contact{
+  padding:9rem 4rem;
+  border-top:1px solid var(--border);
+  text-align:center;position:relative;overflow:hidden;
+}
+#contact::before{
+  content:'';position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(42,110,79,0.12),transparent 70%);
+  pointer-events:none;
+}
+.contact-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,7vw,7rem);
+  font-weight:900;line-height:0.9;
+  color:var(--white);
+}
+.contact-title em{font-style:italic;color:var(--lime)}
+.contact-sub{
+  margin:2rem auto 0;max-width:45ch;
+  font-size:1rem;line-height:1.75;
+  color:rgba(249,249,245,0.45);
+}
+.contact-info{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  gap:1.5rem;margin-top:3.5rem;
+}
+.contact-pill{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  padding:0.85rem 1.8rem;
+  border-radius:2px;
+  font-size:0.82rem;font-weight:500;
+  letter-spacing:0.08em;
+  text-decoration:none;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.pill-primary{
+  background:var(--lime);color:var(--bg);
+}
+.pill-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(184,224,74,0.25)}
+.pill-outline{
+  border:1px solid rgba(255,255,255,0.15);color:rgba(249,249,245,0.7);
+}
+.pill-outline:hover{border-color:var(--lime);color:var(--lime)}
+.open-to{
+  margin-top:3rem;
+  display:inline-flex;align-items:center;gap:0.8rem;
+  padding:0.8rem 1.5rem;
+  background:rgba(184,224,74,0.06);
+  border:1px solid rgba(184,224,74,0.15);
+  border-radius:30px;
+  font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--lime);
+}
+.open-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--lime);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── FOOTER ── */
+footer{
+  padding:2rem 4rem;
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:0.72rem;letter-spacing:0.08em;
+  color:var(--muted);
+}
+footer span{color:var(--lime)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s,transform 0.8s}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  #hero{padding:0 1.8rem 4rem}
+  section,#story,#skills,#human,#experience,#athletic,#education,#contact,#dissertation,footer{padding:4.5rem 1.8rem}
+  #story,#skills,#human{grid-template-columns:1fr;gap:3rem}
+  .edu-grid,.sport-cards{grid-template-columns:1fr}
+  .values-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Poorvi <span>Dalakoti</span></div>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#athletic">Athlete</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+  <a href="mailto:dalakotipoorvi123@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="mountain-bg"></div>
+  <div class="hero-tag">MSc Sports Management · Loughborough University · Open to Relocation</div>
+  <h1 class="hero-name">
+    Poorvi<br/><em>Dalakoti</em>
+  </h1>
+  <p class="hero-sub">
+    From the <strong>Himalayas to Loughborough</strong> — national-level athlete turned sports management professional. I build communities, manage venues, lead events, and never stop moving forward.
+  </p>
+  <div class="hero-bottom">
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-n">130+</div>
+        <div class="hero-stat-l">Volunteer Hours</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">10+</div>
+        <div class="hero-stat-l">Events Delivered</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">2</div>
+        <div class="hero-stat-l">Masters Degrees</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">4000+</div>
+        <div class="hero-stat-l">CWG Participants</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="reveal">
+    <p class="story-label">My Story</p>
+    <h2 class="story-title">From a <em>small town</em> to the world stage.</h2>
+    <div class="story-body">
+      <p>I grew up in <strong>Uttarakhand, India</strong> — a small town tucked into the Himalayas — where sport wasn't just a hobby, it was everything. Cricket, basketball, baseball. I represented my university, captained teams, and aimed to play professionally.</p>
+      <p>Then in 2022, an injury forced me to stop. Not to give up — to <strong>pivot</strong>. If I couldn't be on the field as a player, I'd shape sport from the outside. I did two masters degrees. Then I made the biggest leap of my life.</p>
+      <p>I moved continents. No family nearby. No familiar faces. A <strong>financial loan, a new culture, a new climate</strong> — and a relentless drive to prove that the leap was worth it. Some days were remarkable. Some were brutal. I kept going.</p>
+      <p>While studying my MSc at Loughborough, I worked, volunteered at major events, contributed to EDI policy, managed operations, taught students, and built a career — all at the same time. <strong>This wasn't accidental. It was the plan.</strong></p>
+    </div>
+  </div>
+  <div class="reveal reveal-delay-1">
+    <div class="origin-card">
+      <p class="origin-place">📍 Uttarakhand → Loughborough, UK</p>
+      <p class="origin-quote">"I can't give up. I <span>won't</span> give up. I have come too far."</p>
+    </div>
+    <div class="journey-steps">
+      <div class="j-step">
+        <div class="j-icon">🏔️</div>
+        <div class="j-text"><strong>The Beginning</strong>National-level athlete. Three-year cricket captain. Gold medallist. Built on sport from day one.</div>
+      </div>
+      <div class="j-step">
+        <div class="j-icon">🔄</div>
+        <div class="j-text"><strong>The Pivot</strong>Injury in 2022. Career decision. Two masters degrees — Physical Education, then Sports Management at Loughborough.</div>
+      </div>
+      <div class="j-step">
+        <div class="j-icon">✈️</div>
+        <div class="j-text"><strong>The Leap</strong>Moved from India to UK alone. Financial pressure, culture shock, time difference from family — and still delivered excellence.</div>
+      </div>
+      <div class="j-step">
+        <div class="j-icon">🚀</div>
+        <div class="j-text"><strong>Now</strong>Working at Loughborough Sport & Soul Padel. Accreditation at CWG 2026. ICC Women's T20 World Cup 2026. Building forward.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div id="strip">
+  <div class="strip-item reveal"><div class="strip-n">3</div><div class="strip-l">Years as Cricket Captain</div></div>
+  <div class="strip-item reveal reveal-delay-1"><div class="strip-n">40%</div><div class="strip-l">Ticket Sales Growth (Club Manager)</div></div>
+  <div class="strip-item reveal reveal-delay-2"><div class="strip-n">5+</div><div class="strip-l">Sports Played at National Level</div></div>
+  <div class="strip-item reveal reveal-delay-3"><div class="strip-n">2</div><div class="strip-l">International Events 2026</div></div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <p class="sec-label">Professional Experience</p>
+    <h2 class="sec-title">Every event.<br/>Every <em>court.</em></h2>
+  </div>
+  <div class="exp-timeline">
+
+    <div class="exp-item current reveal">
+      <div class="exp-meta">
+        <span class="exp-date">2026 — Present</span>
+        <span class="exp-badge badge-elite">Elite Event</span>
+      </div>
+      <div class="exp-role">Accreditation Team Member</div>
+      <div class="exp-org">Commonwealth Games 2026 · Glasgow</div>
+      <ul class="exp-bullets">
+        <li>Managing athlete, official, and media accreditation for one of the world's largest multi-sport events</li>
+        <li>Controlling venue access for 4,000+ participants across multiple competition venues</li>
+        <li>Liaising with NGB representatives and the organising committee to ensure Games-wide compliance</li>
+      </ul>
+    </div>
+
+    <div class="exp-item current reveal">
+      <div class="exp-meta">
+        <span class="exp-date">2026 — Present</span>
+        <span class="exp-badge badge-elite">Elite Event</span>
+      </div>
+      <div class="exp-role">Spectator Experience Operative</div>
+      <div class="exp-org">ICC Women's T20 World Cup 2026 · UK</div>
+      <ul class="exp-bullets">
+        <li>Delivering front-line fan experience across multiple UK venues for major international cricket tournament</li>
+        <li>Managing crowd flow, wayfinding, and accessibility support for diverse international spectator audiences</li>
+        <li>Upholding health, safety, and venue compliance throughout all event-day operations</li>
+      </ul>
+    </div>
+
+    <div class="exp-item current reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Mar 2026 — Present</span>
+        <span class="exp-badge badge-current">Current</span>
+      </div>
+      <div class="exp-role">Customer Services Assistant</div>
+      <div class="exp-org">Loughborough Sport · UK's Leading University Facility</div>
+      <ul class="exp-bullets">
+        <li>Front-of-house service at one of the UK's premier university sport facilities</li>
+        <li>Managing facility bookings, membership queries, and real-time issue resolution</li>
+      </ul>
+    </div>
+
+    <div class="exp-item current reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Mar 2025 — Present</span>
+        <span class="exp-badge badge-current">Current</span>
+      </div>
+      <div class="exp-role">Senior Club Operative</div>
+      <div class="exp-org">Soul Padel · Loughborough University</div>
+      <ul class="exp-bullets">
+        <li>Overseeing daily court operations: scheduling, online booking systems, inventory, member onboarding</li>
+        <li>Supporting digital marketing and social media activity to drive membership growth and retention</li>
+        <li>Building operational processes from the ground up since the club's opening</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Apr 2025</span>
+        <span class="exp-badge badge-vol">Youth & Inclusion</span>
+      </div>
+      <div class="exp-role">Club Leader & Enrichment Instructor</div>
+      <div class="exp-org">EMPWR Sports · UK</div>
+      <ul class="exp-bullets">
+        <li>Designed and delivered inclusive sport sessions for children and young adults with diverse needs</li>
+        <li>Managed safeguarding compliance, risk assessments, and parent communication across all sessions</li>
+        <li>Supported mental health and social wellbeing through sport — something I care about deeply</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Jan 2025 — Present</span>
+        <span class="exp-badge badge-vol">Mass Events</span>
+      </div>
+      <div class="exp-role">Event Operations Staff</div>
+      <div class="exp-org">Live Force / RunThrough UK Events</div>
+      <ul class="exp-bullets">
+        <li>Supported logistics for mass-participation events: registration, route setup, participant coordination</li>
+        <li>Ensured health and safety compliance across multiple venues serving 1,000+ participants per event</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Jan 2025</span>
+        <span class="exp-badge badge-elite">Elite Sport</span>
+      </div>
+      <div class="exp-role">Team Services Member — Hockey Maker</div>
+      <div class="exp-org">England Hockey Super 6s · Derby Arena</div>
+      <ul class="exp-bullets">
+        <li>Coordinated athlete logistics and team services for the elite national indoor hockey championship</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Dec 2024 – May 2025</span>
+        <span class="exp-badge badge-vol">Education</span>
+      </div>
+      <div class="exp-role">Cover Supervisor</div>
+      <div class="exp-org">GSL Education / Charnwood College · UK</div>
+      <ul class="exp-bullets">
+        <li>Delivered structured sessions across KS3–4; maintained safeguarding compliance and student welfare</li>
+        <li>Drew on years of teaching physical education to students at school and university level</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Sep 2024 – Dec 2025</span>
+        <span class="exp-badge badge-vol">Volunteering</span>
+      </div>
+      <div class="exp-role">Coach & Volunteering Academy Member</div>
+      <div class="exp-org">Loughborough Sport</div>
+      <ul class="exp-bullets">
+        <li>Accumulated 130+ volunteer hours across BUCS championships and community sport events</li>
+        <li>Mentored new volunteers; assisted with live match operations and inclusive sport programme delivery</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <span class="exp-date">Jul 2022 – Jun 2023</span>
+        <span class="exp-badge badge-elite">Leadership</span>
+      </div>
+      <div class="exp-role">Club Manager</div>
+      <div class="exp-org">Halwani Cricket Club · India</div>
+      <ul class="exp-bullets">
+        <li>Planned and delivered 10+ tournaments with full budget, stakeholder, and logistics responsibility</li>
+        <li>Increased ticket sales by 40% through targeted marketing campaigns</li>
+        <li>Managed real-time issue resolution across live events</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <p class="sec-label">Core Competencies</p>
+    <h2 class="sec-title" style="margin-bottom:3rem">What I<br/><em style="font-style:italic;color:var(--gold)">bring.</em></h2>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Operations & Events</div>
+      <div class="skill-row"><div class="skill-info"><span>Event Operations & Logistics</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill fill-lime" style="width:95%"></div></div></div>
+      <div class="skill-row"><div class="skill-info"><span>Venue & Facility Management</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill fill-lime" style="width:90%"></div></div></div>
+      <div class="skill-row"><div class="skill-info"><span>Accreditation & Access Control</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill fill-lime" style="width:88%"></div></div></div>
+      <div class="skill-row"><div class="skill-info"><span>Spectator Experience</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill fill-lime" style="width:85%"></div></div></div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">People & Leadership</div>
+      <div class="skill-row"><div class="skill-info"><span>Volunteer Leadership & Mentoring</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill fill-gold" style="width:92%"></div></div></div>
+      <div class="skill-row"><div class="skill-info"><span>Youth Programme Delivery</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill fill-gold" style="width:88%"></div></div></div>
+      <div class="skill-row"><div class="skill-info"><span>Stakeholder & NGB Liaison</span><span class="skill-pct">82%</span></div><div class="skill-track"><div class="skill-fill fill-gold" style="width:82%"></div></div></div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">All Competencies</div>
+      <div class="tags">
+        <div class="tag">Mass Participation Events</div>
+        <div class="tag">Safeguarding & Child Protection</div>
+        <div class="tag">Health & Safety Compliance</div>
+        <div class="tag">Budget Management</div>
+        <div class="tag">Digital Marketing</div>
+        <div class="tag">CRM & Booking Systems</div>
+        <div class="tag">EDI Policy</div>
+        <div class="tag">Physical Education</div>
+        <div class="tag">Multilingual Communication</div>
+        <div class="tag">Social Media</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-delay-1">
+    <p class="sec-label">Certifications</p>
+    <h2 class="sec-title" style="margin-bottom:2rem">Qualified.<br/><em style="font-style:italic;color:var(--lime)">Cleared.</em></h2>
+    <div class="certs">
+      <div class="cert"><div class="cert-dot"></div><div class="cert-text">Enhanced DBS Check (UK) — Current</div></div>
+      <div class="cert"><div class="cert-dot"></div><div class="cert-text">First Aid Certified</div></div>
+      <div class="cert"><div class="cert-dot"></div><div class="cert-text">Safeguarding & Child Protection Certified</div></div>
+      <div class="cert"><div class="cert-dot"></div><div class="cert-text">Coach Volunteering Academy — Loughborough Sport</div></div>
+    </div>
+
+    <div style="margin-top:3rem">
+      <p class="sec-label">Leadership Roles</p>
+      <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:1rem">
+        <div class="j-step" style="background:var(--card)">
+          <div class="j-icon">🎓</div>
+          <div class="j-text"><strong>Student Advisory Member — EDIT</strong>Collaborated with Loughborough University leadership on inclusive sport policy, EDI research, and gender equity in higher education sport.</div>
+        </div>
+        <div class="j-step" style="background:var(--card)">
+          <div class="j-icon">🌍</div>
+          <div class="j-text"><strong>Loughborough UNESCO Student Network</strong>Promoted cultural diversity and sustainable development. Contributed to the UNESCO mission of inclusion and equity.</div>
+        </div>
+        <div class="j-step" style="background:var(--card)">
+          <div class="j-icon">🏆</div>
+          <div class="j-text"><strong>Sports Head — Student Union, India</strong>Organised 5+ major events. Raised £1,500+ to support underprivileged athletes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATHLETIC -->
+<section id="athletic">
+  <div class="section-header reveal">
+    <p class="sec-label">Athletic Background</p>
+    <h2 class="sec-title">Sport made<br/><em style="font-style:italic;color:var(--gold)">me.</em></h2>
+  </div>
+  <div class="sport-cards">
+    <div class="sport-card reveal">
+      <span class="sport-emoji">🏏</span>
+      <div class="sport-name">Cricket</div>
+      <div class="sport-desc">3-year university captain. National Games participant. The sport that defined my identity before injury changed my path.</div>
+      <div class="sport-tag">National Level</div>
+    </div>
+    <div class="sport-card reveal reveal-delay-1">
+      <span class="sport-emoji">🏀</span>
+      <div class="sport-name">Basketball</div>
+      <div class="sport-desc">Represented at National Games. A second sport I competed in alongside cricket at the highest university level.</div>
+      <div class="sport-tag">National Level</div>
+    </div>
+    <div class="sport-card reveal reveal-delay-2">
+      <span class="sport-emoji">⚾</span>
+      <div class="sport-name">Baseball</div>
+      <div class="sport-desc">All India Senior University Championship participant. Competed across disciplines — versatility has always been my edge.</div>
+      <div class="sport-tag">National Level</div>
+    </div>
+    <div class="sport-card reveal reveal-delay-3">
+      <span class="sport-emoji">🏔️</span>
+      <div class="sport-name">Adventure Sports</div>
+      <div class="sport-desc">Himalayan winter expedition trekking. Raised in the mountains — adventure is in my DNA.</div>
+      <div class="sport-tag">Himalayan Expeditions</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <p class="sec-label">Education</p>
+    <h2 class="sec-title">The turning<br/><em style="font-style:italic;color:var(--lime)">point.</em></h2>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card highlight reveal" data-year="2024–25">
+      <div class="edu-degree">MSc Sports Management</div>
+      <div class="edu-uni">Loughborough University · UK</div>
+      <div class="edu-note">Dissertation: <em>Barriers Faced by Women in Senior Leadership Roles in UK Sport — Strategies Towards Inclusion & Equity.</em> A subject I lived and researched simultaneously.</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-1" data-year="2022–24">
+      <div class="edu-degree">Master of Physical Education</div>
+      <div class="edu-uni">HNB Garhwal University · India</div>
+      <div class="edu-note">Sports Event Treasurer — managed budget and financial reporting for university events. Laid the foundation for operational and event management expertise.</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-2" data-year="2020–22">
+      <div class="edu-degree">Bachelor of Physical Education</div>
+      <div class="edu-uni">HNB Garhwal University · India</div>
+      <div class="edu-note"><strong>University Gold Medallist.</strong> Top of the cohort. Where sport and academia first truly converged for me.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DISSERTATION -->
+<section id="dissertation">
+  <div class="reveal">
+    <p class="diss-label">MSc Dissertation · Loughborough University</p>
+    <h2 class="diss-title">"Barriers Faced by Women in Senior Leadership Roles in UK Sport — Strategies Towards Inclusion & Equity"</h2>
+    <p class="diss-body">This wasn't just an academic exercise. I was a woman navigating a new country, a competitive industry, and institutional systems — researching the very barriers I was facing. This dissertation is a piece of me. It reflects my values around gender equity, inclusion, and the kind of sports industry I want to help build.</p>
+  </div>
+</section>
+
+<!-- HUMAN SECTION -->
+<section id="human">
+  <div class="reveal">
+    <p class="story-label">Who I Am as a Person</p>
+    <h2 class="human-title">Patient. Driven.<br/><em>Unbreakable.</em></h2>
+    <div class="human-body">
+      <p>I help people. Not because it's in a job description — because it's who I am. Whether that's a child in an adaptive sport session, a student needing support, a volunteer finding their feet, or a spectator who can't find the gate — I show up.</p>
+      <p>I've managed chaos. Real chaos. <strong>Studying full-time, working multiple jobs, volunteering at major events, managing finances alone, adjusting to a completely new culture</strong> — all while keeping a smile in front of every player, student, and spectator I served.</p>
+      <p>Some days the road felt impossible. Those days taught me more than any lecture. I came from a small town in Uttarakhand to the UK on a financial loan, with no safety net — and I built something real. I'm not done yet. Not even close.</p>
+      <p>I want to grow, keep learning, keep helping people through sport — and yes, the rollercoaster will continue. <strong>I'm not scared of that. I'm ready for it.</strong></p>
+    </div>
+  </div>
+  <div class="values-grid reveal reveal-delay-1">
+    <div class="value-box">
+      <span class="value-icon">🤝</span>
+      <div class="value-t">People First</div>
+      <div class="value-d">I've worked in youth inclusion, mental health through sport, and community delivery. Helping people is the why behind everything.</div>
+    </div>
+    <div class="value-box">
+      <span class="value-icon">⚙️</span>
+      <div class="value-t">Process Driven</div>
+      <div class="value-d">Operations don't run on enthusiasm alone. I build systems, document what matters, and leave things better than I found them.</div>
+    </div>
+    <div class="value-box">
+      <span class="value-icon">🌍</span>
+      <div class="value-t">Globally Minded</div>
+      <div class="value-d">India to UK. Himalayan expeditions to Commonwealth Games. I bring a rare cross-cultural perspective to every team.</div>
+    </div>
+    <div class="value-box">
+      <span class="value-icon">🔥</span>
+      <div class="value-t">Never Give Up</div>
+      <div class="value-d">Injury, relocation, financial pressure, culture shock — none of it stopped me. Resilience isn't a buzzword for me. It's my life.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="contact-title reveal">Let's<br/>build <em>sport</em><br/>together.</h2>
+  <p class="contact-sub reveal">I'm actively looking for full-time opportunities in sports management, event operations, and venue management — across the UK and beyond.</p>
+  <div class="contact-info reveal">
+    <a href="mailto:dalakotipoorvi123@gmail.com" class="contact-pill pill-primary">✉ dalakotipoorvi123@gmail.com</a>
+    <a href="tel:+447587336476" class="contact-pill pill-outline">📞 +44 7587 336 476</a>
+    <a href="https://linkedin.com/in/poorvidalakoti" target="_blank" class="contact-pill pill-outline">LinkedIn ↗</a>
+  </div>
+  <div class="open-to reveal">
+    <div class="open-dot"></div>
+    Open to relocation · UK-wide &amp; internationally
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>Poorvi Dalakoti</span>
+  <span>MSc Sports Management · <span>Loughborough University</span></span>
+  <span>Enhanced DBS Cleared · First Aid Certified</span>
+</footer>
+
+<script>
+// Custom cursor
+const cur=document.getElementById('cur');
+const ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+
+// Scroll reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),80);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+reveals.forEach(el=>obs.observe(el));
+
+// Skill bar animation on reveal
+const skillFills=document.querySelectorAll('.skill-fill');
+const skillObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.transform='scaleX(1)';
+      skillObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+skillFills.forEach(el=>skillObs.observe(el));
+
+// Nav active highlight
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-130)current=s.id});
+  navLinks.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+current?'var(--lime)':''});
+});
+</script>
+</body>
+</html>
