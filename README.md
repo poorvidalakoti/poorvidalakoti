@@ -1,4 +1,5 @@
-## Hi there 👋
+Poorvi Dalakoti
+Sports Management Professional
 
 <!--
 **poorvidalakoti/poorvidalakoti** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
